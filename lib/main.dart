@@ -1,15 +1,16 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:task_management_app/features/bottom_nav_bar/presentation/screens/bottom_nav.dart';
 import 'package:task_management_app/utils/objectbox_helper/setup.dart';
 
-// late ObjectBox objectbox;
-void main()async {
-   WidgetsFlutterBinding.ensureInitialized();
+import 'features/task/bloc/task_bloc.dart';
 
-  // objectbox = await ObjectBox.create();
+late ObjectBox objectbox;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  objectbox = await ObjectBox.create();
   runApp(const MyApp());
 }
 
@@ -25,25 +26,27 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Sizer(
-      builder: (context, orientation, screenType){
-      return MaterialApp(
-        title: 'Task Manager',
-        theme: ThemeData(
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
-            backgroundColor: Colors.green
-          ),
-          appBarTheme: AppBarTheme(
-            color: Colors.green
-          ),
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: false,
-        ),
-          debugShowCheckedModeBanner: false,
-        home:const BottomNav()
-
-
-      );},
+      builder: (context, orientation, screenType) {
+        return MultiBlocProvider(
+            providers: [
+              // Add your BLoCs here
+              BlocProvider<TaskBloc>(
+                create: (context) => TaskBloc(),
+              ),
+            ],
+           child: MaterialApp(
+                title: 'Task Manager',
+                theme: ThemeData(
+                  floatingActionButtonTheme: FloatingActionButtonThemeData(
+                      backgroundColor: Colors.green),
+                  appBarTheme: AppBarTheme(color: Colors.green),
+                  colorScheme:
+                      ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                  useMaterial3: false,
+                ),
+                debugShowCheckedModeBanner: false,
+                home: const BottomNav()));
+      },
     );
   }
 }
-
