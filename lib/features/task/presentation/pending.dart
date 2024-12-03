@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:task_management_app/features/task/bloc/task_bloc.dart';
+import 'package:task_management_app/features/task/data/model/task_model.dart';
 import 'package:task_management_app/features/task/widgets/task_card.dart';
 import 'package:task_management_app/features/widgets/text_widget.dart';
+import 'package:task_management_app/utils/constant/text.dart';
 
 class Pending extends StatelessWidget {
-  const Pending({super.key});
+  const Pending({super.key, required this.index});
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +23,9 @@ class Pending extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildHeader(context),
+                _buildHeader(context, index),
                 SizedBox(height: 2.5.h),
-                _buildTaskList(context),
+                _buildTaskList(context, index),
               ],
             ),
           ),
@@ -31,12 +34,14 @@ class Pending extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context, int index) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         textWidget(
-          text: 'Pending Task',
+          text: index >= 0 && index <= taskNames.length 
+              ? taskNames[index]
+              : 'UnKown',
           fontsize: 19.sp,
           fontwight: FontWeight.bold,
           color: Colors.black,
@@ -51,7 +56,7 @@ class Pending extends StatelessWidget {
     );
   }
 
-  Widget _buildTaskList(BuildContext context) {
+  Widget _buildTaskList(BuildContext context, int index) {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
         if (state is ErrorState) {
@@ -60,22 +65,34 @@ class Pending extends StatelessWidget {
                 style: TextStyle(color: Colors.red, fontSize: 14.sp)),
           );
         } else if (state.taskList.isNotEmpty) {
-           final task = state.taskList;
-          final pendingTaskList = task.where((task) => !task.isComplete).toList();
+          final task = state.taskList;
+          List<TaskModel> pendingTaskList;
+          if (index == 0) {
+            pendingTaskList = task.where((task) => !task.isComplete).toList();
+          }
+          else if(index==1){
+             pendingTaskList = task.where((task) => task.isComplete==true).toList();
+          }
+          else {
+            return Center(
+              child: Text(
+                'No tasks available.',
+                style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+              ),
+            );
+          }
+          
+
           return ListView.separated(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-             itemCount: pendingTaskList.length,
+            itemCount: pendingTaskList.length,
             itemBuilder: (context, index) {
-             
-              
-
               return buildTaskItem(context, pendingTaskList[index]);
             },
             separatorBuilder: (context, index) {
               return Divider(height: 2.h, color: Colors.grey[300]);
             },
-           
           );
         } else {
           return Center(

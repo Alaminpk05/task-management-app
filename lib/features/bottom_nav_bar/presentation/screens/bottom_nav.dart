@@ -20,7 +20,7 @@ int index=0;
 List<Map<String, dynamic>> pageDetails = [
   {
 
-    'page':  Pending(),
+    'page':  Pending(index: index,),
   },
   {
 
