@@ -4,7 +4,7 @@ import 'package:task_management_app/features/widgets/text_widget.dart';
 import 'package:task_management_app/utils/constant/text.dart';
 
 Widget buildHeader(BuildContext context, int index) {
-  print(index);
+ 
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [

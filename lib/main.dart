@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:task_management_app/features/bottom_nav_bar/presentation/screens/bloc/bottom_nav_bloc.dart';
-import 'package:task_management_app/features/bottom_nav_bar/presentation/screens/bottom_nav.dart';
+import 'package:task_management_app/features/bottom_nav_bar/page/bottom_nav.dart';
 import 'package:task_management_app/utils/objectbox_helper/setup.dart';
 
 import 'features/task/bloc/task_bloc.dart';
