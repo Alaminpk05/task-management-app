@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:task_management_app/features/task/bloc/task_bloc.dart';
 import 'package:task_management_app/features/task/data/model/task_model.dart';
-import 'package:task_management_app/features/task/widgets/task_card.dart';
+import 'package:task_management_app/features/task/presentation/widgets/task_card.dart';
 
 Widget buildTaskList(BuildContext context, int index) {
     return BlocBuilder<TaskBloc, TaskState>(

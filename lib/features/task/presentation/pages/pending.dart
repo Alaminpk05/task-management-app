@@ -12,23 +12,25 @@ class Pending extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<TaskBloc>().add(TaskFetchedEvent());
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 3.w, vertical: 3.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildHeader(context, index),
-                SizedBox(height: 2.5.h),
-                buildTaskList(context, index),
-              ],
+    return BlocProvider(
+      create: (context) => TaskBloc()..add(TaskFetchedEvent()),
+      child: SafeArea(
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 3.w, vertical: 3.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildHeader(context, index),
+                  SizedBox(height: 2.5.h),
+                  buildTaskList(context, index),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
-  } 
+  }
 }

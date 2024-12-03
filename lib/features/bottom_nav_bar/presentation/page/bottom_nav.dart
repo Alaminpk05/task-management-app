@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
-import 'package:task_management_app/features/bottom_nav_bar/presentation/screens/bloc/bottom_nav_bloc.dart';
+import 'package:task_management_app/features/bottom_nav_bar/bloc/navbarchange/bottom_nav_bloc.dart';
 import 'package:task_management_app/features/completed.dart';
 import 'package:task_management_app/features/reminders.dart';
 import 'package:task_management_app/features/report/presentation/reports.dart';
-import 'package:task_management_app/features/task/presentation/add_task.dart';
-import 'package:task_management_app/features/task/presentation/pending.dart';
+import 'package:task_management_app/features/task/presentation/pages/add_task.dart';
+import 'package:task_management_app/features/task/presentation/pages/pending.dart';
 
 
 
