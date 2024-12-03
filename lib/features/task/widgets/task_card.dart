@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
+import 'package:task_management_app/features/task/bloc/task_bloc.dart';
 import 'package:task_management_app/features/task/data/model/task_model.dart';
 import 'package:task_management_app/features/widgets/text_widget.dart';
 
-Widget buildTaskItem(context, TaskModel task) {
-  print(' Text of task');
-  print(task.text);
+Widget buildTaskItem(BuildContext context, TaskModel task) {
   return Dismissible(
     key: Key(task.id.toString()),
     child: Padding(
@@ -34,7 +34,7 @@ Widget buildTaskItem(context, TaskModel task) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 textWidget(
-                  text: task.text??'Empty',
+                  text: task.text ?? 'Empty',
                   fontsize: 16.5.sp,
                   fontwight: FontWeight.w500,
                   color: Colors.black,
@@ -55,11 +55,15 @@ Widget buildTaskItem(context, TaskModel task) {
             width: 1.5.w,
           ),
           IconButton(
-              icon: const Icon(
-                Icons.check_box,
-                color: Colors.green,
+              icon:  Icon(
+                 task.isComplete? Icons.check_box:Icons.check_box_outline_blank,
+                color:task.isComplete? Colors.green: Colors.grey,
               ),
-              onPressed: () {}),
+              onPressed: () {
+                !task.isComplete;
+                context.read<TaskBloc>().add(CompletedOrIncompletedEvent(
+                    id: task.id, iscompleted: !task.isComplete));
+              }),
           IconButton(icon: const Icon(Icons.archive_outlined), onPressed: () {})
         ],
       ),

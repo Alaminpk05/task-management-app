@@ -13,6 +13,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final TaskRepo taskRepo = TaskRepo();
   TaskBloc() : super(TaskState()) {
     on<CreateTaskEvent>(_oncreatetask);
+    on<CompletedOrIncompletedEvent>(_oniscompleted);
   }
 
   Future<void> _oncreatetask(
@@ -28,6 +29,17 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       if (kDebugMode) {
         print('Error inserting task: $e');
       }
+    }
+  }
+
+  Future<void> _oniscompleted(
+      CompletedOrIncompletedEvent event, Emitter<TaskState> emit) async {
+    try {
+      await taskRepo.updateTaskStatus(event.id, event.iscompleted);
+      final updatedTaskList = await taskRepo.fetchedAllTask();
+      emit(TaskState(taskList: updatedTaskList));
+    } catch (e) {
+      print(e.toString());
     }
   }
 }

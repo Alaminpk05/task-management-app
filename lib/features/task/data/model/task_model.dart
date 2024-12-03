@@ -7,7 +7,7 @@ class TaskModel {
   final String time;
   final String text;
   final String date;
-  final bool isComplete;
+   bool isComplete;
 
   TaskModel({
      this.id=0,

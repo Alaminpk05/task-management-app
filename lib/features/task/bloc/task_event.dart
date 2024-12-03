@@ -8,3 +8,10 @@ class CreateTaskEvent extends TaskEvent {
 
   CreateTaskEvent({required this.taskModel});
 }
+
+class CompletedOrIncompletedEvent extends TaskEvent {
+  final bool iscompleted;
+  final int id;
+
+  CompletedOrIncompletedEvent( {required this.id,required this.iscompleted});
+}

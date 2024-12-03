@@ -27,7 +27,9 @@ class Pending extends StatelessWidget {
                       fontwight: FontWeight.bold,
                       color: Colors.black,
                     ),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.archive))
+                    IconButton(onPressed: () {
+                      
+                    }, icon: Icon(Icons.archive))
                   ],
                 ),
                 SizedBox(
@@ -54,11 +56,13 @@ class Pending extends StatelessWidget {
                       return Center(child: Text('Empty'));
                     }
                     
-                  },
-                )
+                 },
+                    
+                     
+                )   
               ],
             ),
-          ),
+          ), 
         ),
       ),
     );
