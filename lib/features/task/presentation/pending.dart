@@ -1,3 +1,4 @@
+// Import necessary packages
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -10,6 +11,7 @@ class Pending extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<TaskBloc>().add(TaskFetchedEvent());
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -18,53 +20,68 @@ class Pending extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    textWidget(
-                      text: 'Pending Task',
-                      fontsize: 19.sp,
-                      fontwight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                    IconButton(onPressed: () {
-                      
-                    }, icon: Icon(Icons.archive))
-                  ],
-                ),
-                SizedBox(
-                  height: 2.5.h,
-                ),
-                BlocBuilder<TaskBloc, TaskState>(
-                  builder: (context, state) {
-                    final taskList = state.taskList;
-                    if (taskList.isNotEmpty) {
-                      return ListView.separated(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            final item = taskList[index];
-
-                            return buildTaskItem(context, item);
-                          },
-                          separatorBuilder: (context, index) {
-                            return Divider(
-                                height: 2.h, color: Colors.grey[300]);
-                          },
-                          itemCount: taskList.length);
-                    } else {
-                      return Center(child: Text('Empty'));
-                    }
-                    
-                 },
-                    
-                     
-                )   
+                _buildHeader(context),
+                SizedBox(height: 2.5.h),
+                _buildTaskList(context),
               ],
             ),
-          ), 
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        textWidget(
+          text: 'Pending Task',
+          fontsize: 19.sp,
+          fontwight: FontWeight.bold,
+          color: Colors.black,
+        ),
+        IconButton(
+          onPressed: () {
+            // Implement archive functionality if needed
+          },
+          icon: Icon(Icons.archive),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTaskList(BuildContext context) {
+    return BlocBuilder<TaskBloc, TaskState>(
+      builder: (context, state) {
+        if (state is ErrorState) {
+          return Center(
+            child: Text('Error: ${state.errorMessege}',
+                style: TextStyle(color: Colors.red, fontSize: 14.sp)),
+          );
+        } else if (state.taskList.isNotEmpty) {
+          return ListView.separated(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              final task = state.taskList[index];
+              
+              return buildTaskItem(context, task);
+            },
+            separatorBuilder: (context, index) {
+              return Divider(height: 2.h, color: Colors.grey[300]);
+            },
+            itemCount: state.taskList.length,
+          );
+        } else {
+          return Center(
+            child: Text(
+              'No pending tasks.',
+              style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+            ),
+          );
+        }
+      },
     );
   }
 }

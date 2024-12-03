@@ -7,3 +7,9 @@ class TaskState {
     this.taskList = const <TaskModel>[],
   });
 }
+
+final class ErrorState extends TaskState {
+  final String errorMessege;
+
+  ErrorState({super.taskList, required this.errorMessege});
+}
