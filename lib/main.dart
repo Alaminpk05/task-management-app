@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:task_management_app/features/bottom_nav_bar/presentation/screens/bloc/bottom_nav_bloc.dart';
 import 'package:task_management_app/features/bottom_nav_bar/presentation/screens/bottom_nav.dart';
 import 'package:task_management_app/utils/objectbox_helper/setup.dart';
 
@@ -29,7 +30,10 @@ class _MyAppState extends State<MyApp> {
       builder: (context, orientation, screenType) {
         return MultiBlocProvider(
             providers: [
-              // Add your BLoCs here
+              
+              BlocProvider<BottomNavBloc>(
+                create: (context) => BottomNavBloc(),
+              ),
               BlocProvider<TaskBloc>(
                 create: (context) => TaskBloc(),
               ),

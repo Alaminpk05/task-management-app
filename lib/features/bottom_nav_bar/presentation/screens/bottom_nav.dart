@@ -8,43 +8,57 @@ import 'package:task_management_app/features/report/presentation/reports.dart';
 import 'package:task_management_app/features/task/presentation/add_task.dart';
 import 'package:task_management_app/features/task/presentation/pending.dart';
 
-
-
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
 
   @override
   State<BottomNav> createState() => _BottomNavState();
 }
-int index=0;
+
+int currentIndex = 0;
+
 List<Map<String, dynamic>> pageDetails = [
   {
-
-    'page':  Pending(index: index,),
+    'page': Pending(
+      index: currentIndex,
+    ),
   },
   {
-
-    'page':  Completed(index: index,),
+    'page': Completed(
+      index: currentIndex,
+    ),
   },
   {
-
-    'page':  Reminders(),
-  }, {
-
-    'page':  Reports(),
+    'page': Reminders(),
+  },
+  {
+    'page': Reports(),
   },
 ];
 
 class _BottomNavState extends State<BottomNav> {
-   Color selectedColor = Color.fromRGBO(80, 203, 222, 1);
-   Color unSelectedColor = Color(0xff8C8C8C);
+  Color selectedColor = Color.fromRGBO(80, 203, 222, 1);
+  Color unSelectedColor = Color(0xff8C8C8C);
+  Widget getPage() {
+    switch (currentIndex) {
+      case 0:
+        return Pending(index: 0);
+      case 1:
+        return Completed(index: 1);
+      case 2:
+      return Reminders();
+      case 3:
+        return Reports();
+      default:
+        return const Center(child: Text("Page not found"));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
-      body: pageDetails[index]['page'],
-
-      bottomNavigationBar:StylishBottomBar(
-
+    return Scaffold(
+      body: pageDetails[currentIndex]['page'],
+      bottomNavigationBar: StylishBottomBar(
         items: [
           BottomBarItem(
             icon: const Icon(
@@ -53,7 +67,7 @@ class _BottomNavState extends State<BottomNav> {
             selectedIcon: const Icon(
               Icons.style,
             ),
-            selectedColor:selectedColor,
+            selectedColor: selectedColor,
             unSelectedColor: unSelectedColor,
             title: const Text('Pending'),
           ),
@@ -64,7 +78,6 @@ class _BottomNavState extends State<BottomNav> {
             unSelectedColor: unSelectedColor,
             title: const Text('Completed'),
           ),
-
           BottomBarItem(
             icon: const Icon(
               Icons.access_time_outlined,
@@ -78,7 +91,7 @@ class _BottomNavState extends State<BottomNav> {
           ),
           BottomBarItem(
             icon: const Icon(
-             Icons.bar_chart_outlined,
+              Icons.bar_chart_outlined,
             ),
             selectedIcon: const Icon(
               Icons.bar_chart_outlined,
@@ -90,38 +103,36 @@ class _BottomNavState extends State<BottomNav> {
         ],
         hasNotch: true,
         fabLocation: StylishBarFabLocation.center,
-        currentIndex: index,
+        currentIndex: currentIndex,
         onTap: (value) {
           setState(() {
-            index=value;
-           
+            currentIndex = value;
           });
         },
-
         option: AnimatedBarOptions(
           // iconSize: 32,
           barAnimation: BarAnimation.fade,
           iconStyle: IconStyle.Default,
           // opacity: 0.3,
         ),
-
       ),
-      floatingActionButtonLocation:
-      FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: index==0?FloatingActionButton(
-        backgroundColor: Color.fromRGBO(0, 188, 212,1),
-        shape:  CircleBorder(),
-          child: Icon(Icons.edit,color: Colors.black,),
-          onPressed: (){
-
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AddTaskCard();
-          });
-
-          }):null,
-
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: currentIndex == 0
+          ? FloatingActionButton(
+              backgroundColor: Color.fromRGBO(0, 188, 212, 1),
+              shape: CircleBorder(),
+              child: Icon(
+                Icons.edit,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AddTaskCard();
+                    });
+              })
+          : null,
     );
   }
 }
