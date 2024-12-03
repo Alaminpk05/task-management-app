@@ -60,18 +60,22 @@ class Pending extends StatelessWidget {
                 style: TextStyle(color: Colors.red, fontSize: 14.sp)),
           );
         } else if (state.taskList.isNotEmpty) {
+           final task = state.taskList;
+          final pendingTaskList = task.where((task) => !task.isComplete).toList();
           return ListView.separated(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
+             itemCount: pendingTaskList.length,
             itemBuilder: (context, index) {
-              final task = state.taskList[index];
+             
               
-              return buildTaskItem(context, task);
+
+              return buildTaskItem(context, pendingTaskList[index]);
             },
             separatorBuilder: (context, index) {
               return Divider(height: 2.h, color: Colors.grey[300]);
             },
-            itemCount: state.taskList.length,
+           
           );
         } else {
           return Center(

@@ -24,7 +24,7 @@ List<Map<String, dynamic>> pageDetails = [
   },
   {
 
-    'page':  Completed(),
+    'page':  Completed(index: index,),
   },
   {
 
