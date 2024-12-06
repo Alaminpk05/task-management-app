@@ -23,3 +23,9 @@ class DeleteTaskEvent extends TaskEvent {
 
   DeleteTaskEvent({required this.id});
 }
+
+class ArchiveTask extends TaskEvent {
+  final int id;
+
+  ArchiveTask({required this.id});
+}

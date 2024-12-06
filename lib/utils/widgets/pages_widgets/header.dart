@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:task_management_app/features/archive/pesentation/archive.dart';
 import 'package:task_management_app/features/widgets/text_widget.dart';
 import 'package:task_management_app/utils/constant/text.dart';
 
@@ -18,7 +19,7 @@ Widget buildHeader(BuildContext context, int index) {
       ),
       IconButton(
         onPressed: () {
-          // Implement archive functionality if needed
+          Navigator.push(context, MaterialPageRoute(builder: (c)=>ArchivePage(index: 4)));
         },
         icon: Icon(Icons.archive),
       ),

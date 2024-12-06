@@ -7,32 +7,33 @@ class TaskModel {
   final String time;
   final String text;
   final String date;
-   bool isComplete;
+  bool isComplete;
+  bool isArchive;
 
   TaskModel({
-     this.id=0,
+    this.id = 0,
     required this.time,
     required this.text,
     required this.date,
-    required this.isComplete,
+    this.isArchive=false,
+    this.isComplete=false,
+  
   });
 
-  // copyWith method
   TaskModel copyWith({
     int? id,
     String? time,
     String? text,
     String? date,
     bool? isComplete,
+    bool? isArchive,
   }) {
     return TaskModel(
       time: time ?? this.time,
       text: text ?? this.text,
       date: date ?? this.date,
       isComplete: isComplete ?? this.isComplete,
-      id: id ?? this.id,
+      id: id ?? this.id, isArchive: isArchive??this.isArchive,
     );
   }
-
-
 }

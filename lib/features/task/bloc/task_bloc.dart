@@ -16,6 +16,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<CreateTaskEvent>(_oncreatetask);
     on<CompletedOrIncompletedEvent>(_oniscompleted);
     on<DeleteTaskEvent>(_onDeleteTaskEvent);
+    on<ArchiveTask>(_onArchiveTask);
   }
   Future<void> _ontaskFetchedEvent(
       TaskFetchedEvent event, Emitter<TaskState> emit) async {
@@ -61,5 +62,14 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     } catch (e) {
       emit(ErrorState(errorMessege: e.toString()));
     }
+  }
+
+  FutureOr<void> _onArchiveTask(ArchiveTask event, Emitter<TaskState> emit) {
+    
+    try{
+      
+    }catch(e){}
+ 
+ 
   }
 }

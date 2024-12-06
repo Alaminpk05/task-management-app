@@ -29,4 +29,15 @@ class TaskRepo implements AbstractTaskRepo {
   Future<void> deleteTask(int id) async {
     await taskBox.removeAsync(id);
   }
+
+  @override
+  Future<void> archiveTask(int id,) async {
+    try {
+      final task = await taskBox.getAsync(id);
+      if (task != null) {
+        task.isArchive = !task.isArchive;
+        await taskBox.putAsync(task);
+      }
+    } catch (e) {}
+  }
 }

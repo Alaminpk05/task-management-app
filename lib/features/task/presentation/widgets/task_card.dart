@@ -1,28 +1,26 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:task_management_app/features/task/bloc/task_bloc.dart';
 import 'package:task_management_app/features/task/data/model/task_model.dart';
 import 'package:task_management_app/features/widgets/text_widget.dart';
+import 'package:task_management_app/utils/constant/text.dart';
 
-Widget buildTaskItem(BuildContext context, TaskModel task) {
-
-
+Widget buildTaskItem(BuildContext context, TaskModel task, String type) {
   return Dismissible(
     key: Key(task.id.toString()),
-      onDismissed: (direction) {
+    onDismissed: (direction) {
       context.read<TaskBloc>().add(DeleteTaskEvent(id: task.id));
-       // Optional: Show a confirmation snackbar
+      // Optional: Show a confirmation snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Task "${task.text}" deleted'),
-         
         ),
       );
     },
-    
-    
-     direction: DismissDirection.endToStart, // Define swipe direction
+
+    direction: DismissDirection.endToStart, // Define swipe direction
     background: Container(
       alignment: Alignment.centerRight,
       padding: EdgeInsets.symmetric(horizontal: 20),
@@ -82,14 +80,26 @@ Widget buildTaskItem(BuildContext context, TaskModel task) {
                 color: task.isComplete ? Colors.green : Colors.grey,
               ),
               onPressed: () {
-                !task.isComplete;
+                type==archive?null:
+                  {!task.isComplete,
                 context.read<TaskBloc>().add(CompletedOrIncompletedEvent(
-                    id: task.id, iscompleted: !task.isComplete));
+                    id: task.id, iscompleted: !task.isComplete))};
+               
+                
               }),
-          IconButton(icon: const Icon(Icons.archive_outlined), onPressed: () {})
+          type == archive
+              ? PopupMenuButton(
+                child: Icon(Icons.more_vert),
+                itemBuilder: (contex) {
+                  return [];
+                })
+              : IconButton(
+                  icon: const Icon(Icons.archive_outlined),
+                  onPressed: () {
+                    context.read<TaskBloc>().add(ArchiveTask(id: task.id));
+                  })
         ],
       ),
     ),
-  
   );
 }

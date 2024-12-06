@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:task_management_app/features/task/bloc/task_bloc.dart';
+import 'package:task_management_app/utils/constant/text.dart';
 import 'package:task_management_app/utils/widgets/pages_widgets/header.dart';
 import 'package:task_management_app/utils/widgets/tasks/buildtasklist.dart';
 
@@ -38,7 +39,7 @@ class _CompletedState extends State<Completed> {
               children: [
                 buildHeader(context, widget.index),
                 SizedBox(height: 2.5.h),
-                buildTaskList(context, widget.index),
+                buildTaskList(context, widget.index,completed),
               ],
             ),
           ),

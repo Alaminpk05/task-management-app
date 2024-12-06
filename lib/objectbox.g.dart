@@ -20,34 +20,39 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 4203075392039283061),
-      name: 'Task',
-      lastPropertyId: const obx_int.IdUid(5, 3281615496823674611),
+      id: const obx_int.IdUid(2, 8479621660842172416),
+      name: 'TaskModel',
+      lastPropertyId: const obx_int.IdUid(6, 5138556179953440177),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 3340923632571495049),
+            id: const obx_int.IdUid(1, 1383531900963277676),
             name: 'id',
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 3076506555147979759),
+            id: const obx_int.IdUid(2, 299948858957016673),
             name: 'time',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 81982636207100093),
+            id: const obx_int.IdUid(3, 1185240664932490329),
             name: 'text',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 6296067084066482577),
+            id: const obx_int.IdUid(4, 8024310343813491940),
             name: 'date',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 3281615496823674611),
+            id: const obx_int.IdUid(5, 2278135388745758433),
             name: 'isComplete',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 5138556179953440177),
+            name: 'isArchive',
             type: 1,
             flags: 0)
       ],
@@ -90,13 +95,19 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(1, 4203075392039283061),
+      lastEntityId: const obx_int.IdUid(2, 8479621660842172416),
       lastIndexId: const obx_int.IdUid(0, 0),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
-      retiredEntityUids: const [],
+      retiredEntityUids: const [4203075392039283061],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [
+        3340923632571495049,
+        3076506555147979759,
+        81982636207100093,
+        6296067084066482577,
+        3281615496823674611
+      ],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -115,12 +126,13 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final timeOffset = fbb.writeString(object.time);
           final textOffset = fbb.writeString(object.text);
           final dateOffset = fbb.writeString(object.date);
-          fbb.startTable(6);
+          fbb.startTable(7);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, timeOffset);
           fbb.addOffset(2, textOffset);
           fbb.addOffset(3, dateOffset);
           fbb.addBool(4, object.isComplete);
+          fbb.addBool(5, object.isArchive);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -135,6 +147,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .vTableGet(buffer, rootOffset, 8, '');
           final dateParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 10, '');
+          final isArchiveParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 14, false);
           final isCompleteParam =
               const fb.BoolReader().vTableGet(buffer, rootOffset, 12, false);
           final object = TaskModel(
@@ -142,6 +156,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
               time: timeParam,
               text: textParam,
               date: dateParam,
+              isArchive: isArchiveParam,
               isComplete: isCompleteParam);
 
           return object;
@@ -152,7 +167,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
 }
 
 /// [TaskModel] entity fields to define ObjectBox queries.
-class Task_ {
+class TaskModel_ {
   /// See [TaskModel.id].
   static final id =
       obx.QueryIntegerProperty<TaskModel>(_entities[0].properties[0]);
@@ -172,4 +187,8 @@ class Task_ {
   /// See [TaskModel.isComplete].
   static final isComplete =
       obx.QueryBooleanProperty<TaskModel>(_entities[0].properties[4]);
+
+  /// See [TaskModel.isArchive].
+  static final isArchive =
+      obx.QueryBooleanProperty<TaskModel>(_entities[0].properties[5]);
 }
