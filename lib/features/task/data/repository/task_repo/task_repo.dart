@@ -18,14 +18,15 @@ class TaskRepo implements AbstractTaskRepo {
 
   @override
   Future<void> updateTaskStatus(int id, bool isCompleted) async {
-   
-      final task = await taskBox.getAsync(id);
-      if (task != null) {
-        task.isComplete = isCompleted;
-        await taskBox.putAsync(task);
-      }
-   
+    final task = await taskBox.getAsync(id);
+    if (task != null) {
+      task.isComplete = isCompleted;
+      await taskBox.putAsync(task);
+    }
+  }
 
-    
+  @override
+  Future<void> deleteTask(int id) async {
+    await taskBox.removeAsync(id);
   }
 }

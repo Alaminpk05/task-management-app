@@ -21,6 +21,12 @@ class _CompletedState extends State<Completed> {
   }
 
   @override
+  void dispose() {
+    TaskBloc().close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(

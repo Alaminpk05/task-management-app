@@ -6,8 +6,29 @@ import 'package:task_management_app/features/task/data/model/task_model.dart';
 import 'package:task_management_app/features/widgets/text_widget.dart';
 
 Widget buildTaskItem(BuildContext context, TaskModel task) {
+
+
   return Dismissible(
     key: Key(task.id.toString()),
+      onDismissed: (direction) {
+      context.read<TaskBloc>().add(DeleteTaskEvent(id: task.id));
+       // Optional: Show a confirmation snackbar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Task "${task.text}" deleted'),
+         
+        ),
+      );
+    },
+    
+    
+     direction: DismissDirection.endToStart, // Define swipe direction
+    background: Container(
+      alignment: Alignment.centerRight,
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      color: Colors.red,
+      child: Icon(Icons.delete, color: Colors.white),
+    ),
     child: Padding(
       padding: EdgeInsets.symmetric(vertical: 1.5.h),
       child: Row(
@@ -33,7 +54,7 @@ Widget buildTaskItem(BuildContext context, TaskModel task) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 textWidget(
-                  text: task.text ?? 'Empty',
+                  text: task.text,
                   fontsize: 16.5.sp,
                   fontwight: FontWeight.w500,
                   color: Colors.black,
@@ -54,9 +75,11 @@ Widget buildTaskItem(BuildContext context, TaskModel task) {
             width: 1.5.w,
           ),
           IconButton(
-              icon:  Icon(
-                 task.isComplete? Icons.check_box:Icons.check_box_outline_blank,
-                color:task.isComplete? Colors.green: Colors.grey,
+              icon: Icon(
+                task.isComplete
+                    ? Icons.check_box
+                    : Icons.check_box_outline_blank,
+                color: task.isComplete ? Colors.green : Colors.grey,
               ),
               onPressed: () {
                 !task.isComplete;
@@ -67,6 +90,6 @@ Widget buildTaskItem(BuildContext context, TaskModel task) {
         ],
       ),
     ),
-    onDismissed: (direction) {},
+  
   );
 }

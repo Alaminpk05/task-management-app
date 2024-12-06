@@ -15,6 +15,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<TaskFetchedEvent>(_ontaskFetchedEvent);
     on<CreateTaskEvent>(_oncreatetask);
     on<CompletedOrIncompletedEvent>(_oniscompleted);
+    on<DeleteTaskEvent>(_onDeleteTaskEvent);
   }
   Future<void> _ontaskFetchedEvent(
       TaskFetchedEvent event, Emitter<TaskState> emit) async {
@@ -35,7 +36,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       emit(TaskState(taskList: newTasklist));
     } catch (e) {
       if (kDebugMode) {
-        print('Error inserting task: $e');
+       emit(ErrorState(errorMessege: e.toString()));
       }
     }
   }
@@ -47,7 +48,18 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       final updatedTaskList = await taskRepo.fetchedAllTask();
       emit(TaskState(taskList: updatedTaskList));
     } catch (e) {
-      print(e.toString());
+     emit(ErrorState(errorMessege: e.toString()));
+    }
+  }
+
+  FutureOr<void> _onDeleteTaskEvent(
+      DeleteTaskEvent event, Emitter<TaskState> emit) async{
+    try {
+      await taskRepo.deleteTask(event.id);
+      final updatedList = await taskRepo.fetchedAllTask();
+      emit(TaskState(taskList: updatedList));
+    } catch (e) {
+      emit(ErrorState(errorMessege: e.toString()));
     }
   }
 }
