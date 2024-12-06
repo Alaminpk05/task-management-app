@@ -17,11 +17,11 @@ Widget buildTaskList(BuildContext context, int index, String type) {
         final task = state.taskList;
         List<TaskModel> taskList;
         if (index == 0) {
-          taskList = task.where((task) => !task.isComplete).toList();
+          taskList = task.where((task) => !task.isComplete&& task.isArchive==false).toList();
         } else if (index == 1) {
-          taskList = task.where((task) => task.isComplete).toList();
+          taskList = task.where((task) => task.isComplete==true && task.isArchive==false).toList();
         } else if (index == 4) {
-          taskList = task.where((task) => !task.isArchive).toList();
+          taskList = task.where((task) => task.isArchive==true).toList();
         } else {
           return Center(
             child: Text(

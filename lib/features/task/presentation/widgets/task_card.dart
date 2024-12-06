@@ -80,23 +80,33 @@ Widget buildTaskItem(BuildContext context, TaskModel task, String type) {
                 color: task.isComplete ? Colors.green : Colors.grey,
               ),
               onPressed: () {
-                type==archive?null:
-                  {!task.isComplete,
-                context.read<TaskBloc>().add(CompletedOrIncompletedEvent(
-                    id: task.id, iscompleted: !task.isComplete))};
-               
-                
+                type == archive
+                    ? null
+                    : {
+                        !task.isComplete,
+                        context.read<TaskBloc>().add(
+                            CompletedOrIncompletedEvent(
+                                id: task.id, iscompleted: !task.isComplete))
+                      };
               }),
           type == archive
               ? PopupMenuButton(
-                child: Icon(Icons.more_vert),
-                itemBuilder: (contex) {
-                  return [];
-                })
+                  offset: Offset(30, 30),
+                  child: Icon(Icons.more_vert),
+                  onSelected: (value) {
+                    if (value == delete) {
+                    } else if (value == restore) {}
+                  },
+                  itemBuilder: (contex) {
+                    return [
+                      PopupMenuItem(value: delete, child: Text('Delete')),
+                      PopupMenuItem(value: restore, child: Text('Restore')),
+                    ];
+                  })
               : IconButton(
                   icon: const Icon(Icons.archive_outlined),
                   onPressed: () {
-                    context.read<TaskBloc>().add(ArchiveTask(id: task.id));
+                    context.read<TaskBloc>().add(ArchiveTaskEvent(id: task.id));
                   })
         ],
       ),

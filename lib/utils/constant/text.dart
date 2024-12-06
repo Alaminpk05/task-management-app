@@ -9,3 +9,5 @@ const archive = 'Archive';
 const completed = 'Completed';
 const pending = 'Pending';
 
+const delete = 'delete';
+const restore = 'restore';

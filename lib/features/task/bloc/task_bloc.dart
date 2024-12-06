@@ -16,7 +16,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<CreateTaskEvent>(_oncreatetask);
     on<CompletedOrIncompletedEvent>(_oniscompleted);
     on<DeleteTaskEvent>(_onDeleteTaskEvent);
-    on<ArchiveTask>(_onArchiveTask);
+    on<ArchiveTaskEvent>(_onArchiveTask);
   }
   Future<void> _ontaskFetchedEvent(
       TaskFetchedEvent event, Emitter<TaskState> emit) async {
@@ -37,7 +37,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       emit(TaskState(taskList: newTasklist));
     } catch (e) {
       if (kDebugMode) {
-       emit(ErrorState(errorMessege: e.toString()));
+        emit(ErrorState(errorMessege: e.toString()));
       }
     }
   }
@@ -49,12 +49,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       final updatedTaskList = await taskRepo.fetchedAllTask();
       emit(TaskState(taskList: updatedTaskList));
     } catch (e) {
-     emit(ErrorState(errorMessege: e.toString()));
+      emit(ErrorState(errorMessege: e.toString()));
     }
   }
 
   FutureOr<void> _onDeleteTaskEvent(
-      DeleteTaskEvent event, Emitter<TaskState> emit) async{
+      DeleteTaskEvent event, Emitter<TaskState> emit) async {
     try {
       await taskRepo.deleteTask(event.id);
       final updatedList = await taskRepo.fetchedAllTask();
@@ -64,12 +64,15 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     }
   }
 
-  FutureOr<void> _onArchiveTask(ArchiveTask event, Emitter<TaskState> emit) {
-    
-    try{
+  Future<void> _onArchiveTask(
+      ArchiveTaskEvent event, Emitter<TaskState> emit) async {
+    try {
+      await taskRepo.archiveTask(event.id);
+      final updatedTaskList = await taskRepo.fetchedAllTask();
+      emit(TaskState(taskList: updatedTaskList));
       
-    }catch(e){}
- 
- 
+    } catch (e) {
+      emit(ErrorState(errorMessege: e.toString()));
+    }
   }
 }
