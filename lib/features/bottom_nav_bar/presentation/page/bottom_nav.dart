@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:task_management_app/features/bottom_nav_bar/bloc/navbarchange/bottom_nav_bloc.dart';
-import 'package:task_management_app/features/completed.dart';
-import 'package:task_management_app/features/reminders.dart';
+import 'package:task_management_app/features/completed/page/completed.dart';
+import 'package:task_management_app/features/reminder/page/reminders.dart';
 import 'package:task_management_app/features/report/presentation/reports.dart';
 import 'package:task_management_app/features/task/presentation/pages/add_task.dart';
 import 'package:task_management_app/features/task/presentation/pages/pending.dart';
@@ -29,7 +29,7 @@ class _BottomNavState extends State<BottomNav> {
       case 1:
         return Completed(index: currentIndex);
       case 2:
-        return Reminders();
+        return Reminders(index: 2,);
       case 3:
         return Reports();
       default:

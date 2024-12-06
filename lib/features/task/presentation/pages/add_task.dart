@@ -8,7 +8,7 @@ import 'package:task_management_app/features/task/data/model/task_model.dart';
 
 
 class AddTaskCard extends StatefulWidget {
-  AddTaskCard({
+  const AddTaskCard({
     super.key,
   });
 
