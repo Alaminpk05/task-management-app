@@ -29,7 +29,7 @@ class _BottomNavState extends State<BottomNav> {
       case 1:
         return Completed(index: currentIndex);
       case 2:
-        return Reminders(index: 2,);
+        return Reminders();
       case 3:
         return Reports();
       default:
