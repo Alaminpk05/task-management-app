@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -95,7 +95,12 @@ Widget buildTaskItem(BuildContext context, TaskModel task, String type) {
                   child: Icon(Icons.more_vert),
                   onSelected: (value) {
                     if (value == delete) {
-                    } else if (value == restore) {}
+                      context
+                          .read<TaskBloc>()
+                          .add(DeleteTaskEvent(id: task.id));
+                    } else if (value == restore) {
+                      context.read<TaskBloc>().add(ArchiveTaskEvent(id: task.id));
+                    }
                   },
                   itemBuilder: (contex) {
                     return [

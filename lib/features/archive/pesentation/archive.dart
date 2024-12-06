@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -26,6 +27,8 @@ class _ARchivePageState extends State<ArchivePage> {
   Widget build(BuildContext context) {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
+        final archiveTaskList =
+            state.taskList.where((task) => task.isArchive == true).toList();
         return SafeArea(
           child: Scaffold(
             body: SingleChildScrollView(
@@ -49,15 +52,23 @@ class _ARchivePageState extends State<ArchivePage> {
                           fontwight: FontWeight.bold,
                           color: Colors.black,
                         ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (c) => ArchivePage(index: 4)));
-                          },
-                          icon: Icon(Icons.archive),
-                        ),
+                        PopupMenuButton(
+                            offset: Offset(30, 30),
+                            child: Icon(Icons.more_vert),
+                            onSelected: (value) {
+                              
+                                context.read<TaskBloc>().add(
+                                    DeleteArchiveAllTask(
+                                        archiveTaskList: archiveTaskList));
+                             
+                              print('Clicked on archive header morevert: ${archiveTaskList.length}');
+                            },
+                            itemBuilder: (contex) {
+                              return [
+                                PopupMenuItem(
+                                    value: delete, child: Text('Delete All')),
+                              ];
+                            }),
                       ],
                     ),
                     SizedBox(height: 2.5.h),

@@ -30,14 +30,8 @@ class ArchiveTaskEvent extends TaskEvent {
   ArchiveTaskEvent({required this.id});
 }
 
-class ArchiveTaskDelete extends TaskEvent {
-  final int id;
+class DeleteArchiveAllTask extends TaskEvent {
+  final List<TaskModel> archiveTaskList;
 
-  ArchiveTaskDelete({required this.id});
-}
-
-class ArchiveTaskRestore extends TaskEvent {
-  final bool isArchive;
-
-  ArchiveTaskRestore({required this.isArchive});
+  DeleteArchiveAllTask({required this.archiveTaskList});
 }

@@ -6,4 +6,5 @@ abstract class AbstractTaskRepo {
   Future<void> updateTaskStatus(int id, bool isCompleted);
   Future<void> deleteTask(int id);
   Future<void> archiveTask(int id,);
+  Future<void> deleteArchiveAllTask(List<TaskModel> archiveTaskList);
 }
