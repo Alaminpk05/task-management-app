@@ -23,7 +23,13 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     try {
       final updatedList = await taskRepo.fetchedAllTask();
       final c = await taskRepo.pendingTaskCounter(updatedList);
-      await NotificationService.dailySchedulNotification(c);
+      if (c == 0) {
+        await NotificationService.cancelNotification(0);
+      }
+      else{
+        await NotificationService.dailySchedulNotification(c);
+      }
+      
       emit(TaskState(taskList: updatedList));
     } catch (e) {
       emit(ErrorState(errorMessege: e.toString()));
@@ -36,8 +42,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       await taskRepo.insertTask(event.taskModel);
       final updatedList = await taskRepo.fetchedAllTask();
       final c = await taskRepo.pendingTaskCounter(updatedList);
-      await NotificationService.cancelNotification(0);
-      await NotificationService.dailySchedulNotification(c);
+      if (c == 0) {
+        await NotificationService.cancelNotification(0);
+      }
+      else{
+        await NotificationService.dailySchedulNotification(c);
+      }
 
       emit(TaskState(taskList: updatedList));
     } catch (e) {
@@ -53,8 +63,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       await taskRepo.updateTaskStatus(event.id, event.iscompleted);
       final updatedList = await taskRepo.fetchedAllTask();
       final c = await taskRepo.pendingTaskCounter(updatedList);
-      print(c);
-      await NotificationService.dailySchedulNotification(c);
+      if (c == 0) {
+        await NotificationService.cancelNotification(0);
+      }
+      else{
+        await NotificationService.dailySchedulNotification(c);
+      }
       emit(TaskState(taskList: updatedList));
     } catch (e) {
       emit(ErrorState(errorMessege: e.toString()));
@@ -67,7 +81,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       await taskRepo.deleteTask(event.id);
       final updatedList = await taskRepo.fetchedAllTask();
       final c = await taskRepo.pendingTaskCounter(updatedList);
-      await NotificationService.dailySchedulNotification(c);
+      if (c == 0) {
+        await NotificationService.cancelNotification(0);
+      }
+      else{
+        await NotificationService.dailySchedulNotification(c);
+      }
       emit(TaskState(taskList: updatedList));
     } catch (e) {
       emit(ErrorState(errorMessege: e.toString()));
@@ -80,7 +99,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       await taskRepo.archiveTask(event.id);
       final updatedList = await taskRepo.fetchedAllTask();
       final c = await taskRepo.pendingTaskCounter(updatedList);
-      await NotificationService.dailySchedulNotification(c);
+      if (c == 0) {
+        await NotificationService.cancelNotification(0);
+      }
+      else{
+        await NotificationService.dailySchedulNotification(c);
+      }
       emit(TaskState(taskList: updatedList));
     } catch (e) {
       emit(ErrorState(errorMessege: e.toString()));
@@ -93,7 +117,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       await taskRepo.deleteArchiveAllTask(event.archiveTaskList);
       final updatedList = await taskRepo.fetchedAllTask();
       final c = await taskRepo.pendingTaskCounter(updatedList);
-      await NotificationService.dailySchedulNotification(c);
+      if (c == 0) {
+        await NotificationService.cancelNotification(0);
+      }
+      else{
+        await NotificationService.dailySchedulNotification(c);
+      }
       emit(TaskState(taskList: updatedList));
     } catch (e) {
       emit(ErrorState(errorMessege: e.toString()));
@@ -104,7 +133,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       NotificationEvent event, Emitter<TaskState> emit) async {
     try {
       final c = await taskRepo.pendingTaskCounter(state.taskList);
-      await NotificationService.dailySchedulNotification(c);
+      if (c == 0) {
+        await NotificationService.cancelNotification(0);
+      }
+      else{
+        await NotificationService.dailySchedulNotification(c);
+      }
     } catch (e) {
       emit(ErrorState(errorMessege: e.toString()));
     }

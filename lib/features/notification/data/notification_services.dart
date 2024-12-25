@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -57,7 +56,6 @@ class NotificationService {
         );
   } //END OF INITIALIZATION
 
- 
   /// Handle notification click
   static Future<void> _onDidReceiveNotificationResponse(
       NotificationResponse notificationResponse) async {
@@ -72,7 +70,6 @@ class NotificationService {
   static void _handleNotificationPayload(String payload) {
     try {
       final duaData = jsonDecode(payload);
-      
 
       if (navigatorKey.currentState != null) {
         navigatorKey.currentState?.push(
@@ -99,60 +96,60 @@ class NotificationService {
     }
   }
 
- 
-
   static Future<void> dailySchedulNotification(int c) async {
-  // Set the desired time for the notification
-  const int targetHour = 11; // 11 AM
-  const int targetMinute = 0;
+    // Set the desired time for the notification
+    const int targetHour = 11; // 11 AM
+    const int targetMinute = 0;
+    
 
-  // Get the current date and time
-  final now = DateTime.now();
-  final scheduledDate = DateTime(
-    now.year,
-    now.month,
-    now.day,
-    targetHour,
-    targetMinute,
-  );
+    // Get the current date and time
+    final now = DateTime.now();
+    final scheduledDate = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      targetHour,
+      targetMinute,
+    );
 
-  // Adjust to the next day if the time has already passed
-  final firstNotificationTime = scheduledDate.isBefore(now)
-      ? scheduledDate.add(const Duration(days: 1))
-      : scheduledDate;
+    // Adjust to the next day if the time has already passed
+    final firstNotificationTime = scheduledDate.isBefore(now)
+        ? scheduledDate.add(const Duration(days: 1))
+        : scheduledDate;
 
-  // Notification details
-  const NotificationDetails platformChannelSpecifics = NotificationDetails(
-    android: AndroidNotificationDetails(
-      'reminder_channel',
-      'Reminder Notification',
-      importance: Importance.high,
-      priority: Priority.high,
-    ),
-    iOS: DarwinNotificationDetails(),
-  );
+    // Notification details
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: AndroidNotificationDetails(
+        'reminder_channel',
+        'Reminder Notification',
+        importance: Importance.high,
+        priority: Priority.high,
+      ),
+      iOS: DarwinNotificationDetails(),
+    );
 
-  // Convert to timezone-aware time
-  final tz.TZDateTime tzFirstNotificationTime =
-      tz.TZDateTime.from(firstNotificationTime, tz.local);
+    // Convert to timezone-aware time
+    final tz.TZDateTime tzFirstNotificationTime =
+        tz.TZDateTime.from(firstNotificationTime, tz.local);
 
-  // Payload for notification
-  final payload = jsonEncode('payload');
+    // Payload for notification
+    final payload = jsonEncode('payload');
+  
 
-  // Schedule the notification
-  await flutterLocalNotificationsPlugin.zonedSchedule(
-    0,
-    'Daily Reminder',
-    '$c tasks are still pending; complete them and take one step closer to your dream.',
-    tzFirstNotificationTime,
-    platformChannelSpecifics,
-    uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
-    payload: payload,
-    matchDateTimeComponents: DateTimeComponents.time,
-    androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-  );
-}
+    // Schedule the notification
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      0,
+      'Daily Reminder',
+      '$c ${c==1?'task is':'tasks are'}  still pending complete ${c==1?'it':'them'} and take one step closer to your dream.',
+      tzFirstNotificationTime,
+      platformChannelSpecifics,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      payload: payload,
+      matchDateTimeComponents: DateTimeComponents.time,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+    );
+  }
 
   /// Cancel notification
   static Future<void> cancelNotification(int notificationId) async {
