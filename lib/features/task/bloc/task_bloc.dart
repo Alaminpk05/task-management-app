@@ -21,8 +21,10 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   Future<void> _ontaskFetchedEvent(
       TaskFetchedEvent event, Emitter<TaskState> emit) async {
     try {
-      final tasklist = await taskRepo.fetchedAllTask();
-      emit(TaskState(taskList: tasklist));
+      final updatedList = await taskRepo.fetchedAllTask();
+      final c = await taskRepo.pendingTaskCounter(updatedList);
+      await NotificationService.dailySchedulNotification(c);
+      emit(TaskState(taskList: updatedList));
     } catch (e) {
       emit(ErrorState(errorMessege: e.toString()));
     }
@@ -32,9 +34,12 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       CreateTaskEvent event, Emitter<TaskState> emit) async {
     try {
       await taskRepo.insertTask(event.taskModel);
-      final newTasklist = await taskRepo.fetchedAllTask();
+      final updatedList = await taskRepo.fetchedAllTask();
+      final c = await taskRepo.pendingTaskCounter(updatedList);
+      await NotificationService.cancelNotification(0);
+      await NotificationService.dailySchedulNotification(c);
 
-      emit(TaskState(taskList: newTasklist));
+      emit(TaskState(taskList: updatedList));
     } catch (e) {
       if (kDebugMode) {
         emit(ErrorState(errorMessege: e.toString()));
@@ -46,8 +51,11 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       CompletedOrIncompletedEvent event, Emitter<TaskState> emit) async {
     try {
       await taskRepo.updateTaskStatus(event.id, event.iscompleted);
-      final updatedTaskList = await taskRepo.fetchedAllTask();
-      emit(TaskState(taskList: updatedTaskList));
+      final updatedList = await taskRepo.fetchedAllTask();
+      final c = await taskRepo.pendingTaskCounter(updatedList);
+      print(c);
+      await NotificationService.dailySchedulNotification(c);
+      emit(TaskState(taskList: updatedList));
     } catch (e) {
       emit(ErrorState(errorMessege: e.toString()));
     }
@@ -58,6 +66,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     try {
       await taskRepo.deleteTask(event.id);
       final updatedList = await taskRepo.fetchedAllTask();
+      final c = await taskRepo.pendingTaskCounter(updatedList);
+      await NotificationService.dailySchedulNotification(c);
       emit(TaskState(taskList: updatedList));
     } catch (e) {
       emit(ErrorState(errorMessege: e.toString()));
@@ -68,8 +78,10 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       ArchiveTaskEvent event, Emitter<TaskState> emit) async {
     try {
       await taskRepo.archiveTask(event.id);
-      final updatedTaskList = await taskRepo.fetchedAllTask();
-      emit(TaskState(taskList: updatedTaskList));
+      final updatedList = await taskRepo.fetchedAllTask();
+      final c = await taskRepo.pendingTaskCounter(updatedList);
+      await NotificationService.dailySchedulNotification(c);
+      emit(TaskState(taskList: updatedList));
     } catch (e) {
       emit(ErrorState(errorMessege: e.toString()));
     }
@@ -79,8 +91,10 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       DeleteArchiveAllTask event, Emitter<TaskState> emit) async {
     try {
       await taskRepo.deleteArchiveAllTask(event.archiveTaskList);
-      final taskList = await taskRepo.fetchedAllTask();
-      emit(TaskState(taskList: taskList));
+      final updatedList = await taskRepo.fetchedAllTask();
+      final c = await taskRepo.pendingTaskCounter(updatedList);
+      await NotificationService.dailySchedulNotification(c);
+      emit(TaskState(taskList: updatedList));
     } catch (e) {
       emit(ErrorState(errorMessege: e.toString()));
     }

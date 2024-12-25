@@ -7,6 +7,7 @@ class TaskRepo implements AbstractTaskRepo {
   @override
   Future<List<TaskModel>> fetchedAllTask() async {
     List<TaskModel> taskList = await taskBox.getAllAsync();
+    
 
     return taskList;
   }
