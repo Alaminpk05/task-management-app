@@ -17,6 +17,9 @@ void main() async {
 
   objectbox = await ObjectBox.create();
   runApp(const MyApp());
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    NotificationService.handlePendingPayload();
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -33,11 +36,11 @@ class _MyAppState extends State<MyApp> {
   void initState()  {
    
     super.initState();
-    _showNotification();
+    // _showNotification();
   }
 
   Future<void> _showNotification() async {
-    await NotificationService.dailySchedulNotification();
+    await NotificationService.dailySchedulNotification(1);
   }
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,7 @@ class _MyAppState extends State<MyApp> {
                 create: (context) => BottomNavBloc(),
               ),
               BlocProvider<TaskBloc>(
-                create: (context) => TaskBloc(),
+                create: (context) => TaskBloc()..add(NotificationEvent()),
               ),
             ],
             child: MaterialApp(

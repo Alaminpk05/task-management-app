@@ -101,7 +101,7 @@ class NotificationService {
 
  
 
-  static Future<void> dailySchedulNotification() async {
+  static Future<void> dailySchedulNotification(int c) async {
   // Set the desired time for the notification
   const int targetHour = 11; // 11 AM
   const int targetMinute = 0;
@@ -143,7 +143,7 @@ class NotificationService {
   await flutterLocalNotificationsPlugin.zonedSchedule(
     0,
     'Daily Reminder',
-    'This is your daily reminder at 11:00 AM.',
+    '$c tasks are still pending; complete them and take one step closer to your dream.',
     tzFirstNotificationTime,
     platformChannelSpecifics,
     uiLocalNotificationDateInterpretation:

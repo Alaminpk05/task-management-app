@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:task_management_app/features/notification/data/notification_services.dart';
 import 'package:task_management_app/features/task/data/model/task_model.dart';
 import 'package:task_management_app/features/task/data/repository/task_repo/task_repo.dart';
 part 'task_event.dart';
@@ -15,6 +16,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<DeleteTaskEvent>(_onDeleteTaskEvent);
     on<ArchiveTaskEvent>(_onArchiveTask);
     on<DeleteArchiveAllTask>(_onDeleteArchiveAllTask);
+    on<NotificationEvent>(_onNotificationEvent);
   }
   Future<void> _ontaskFetchedEvent(
       TaskFetchedEvent event, Emitter<TaskState> emit) async {
@@ -79,6 +81,16 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       await taskRepo.deleteArchiveAllTask(event.archiveTaskList);
       final taskList = await taskRepo.fetchedAllTask();
       emit(TaskState(taskList: taskList));
+    } catch (e) {
+      emit(ErrorState(errorMessege: e.toString()));
+    }
+  }
+
+  Future<void> _onNotificationEvent(
+      NotificationEvent event, Emitter<TaskState> emit) async {
+    try {
+      final c = await taskRepo.pendingTaskCounter(state.taskList);
+      await NotificationService.dailySchedulNotification(c);
     } catch (e) {
       emit(ErrorState(errorMessege: e.toString()));
     }

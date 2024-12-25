@@ -35,3 +35,9 @@ class DeleteArchiveAllTask extends TaskEvent {
 
   DeleteArchiveAllTask({required this.archiveTaskList});
 }
+
+class NotificationEvent extends TaskEvent {
+  
+
+  NotificationEvent( );
+}
