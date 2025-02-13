@@ -53,14 +53,14 @@ class TaskRepo implements AbstractTaskRepo {
   }
 
   @override
-  Future<int> pendingTaskCounter(List<TaskModel> tasklist) async {
+  Future<int> pendingTaskCounter(List<TaskModel> taskList) async {
     int countPendingTask = 0;
-    for (var task in tasklist) {
+    for (var task in taskList) {
       if (task.isComplete == false && task.isArchive == false) {
         countPendingTask++;
       }
     }
-    print(countPendingTask);
+   
     return countPendingTask;
   }
 }

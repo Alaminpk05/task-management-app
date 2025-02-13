@@ -20,10 +20,10 @@ class Reports extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              textWidget(
+              TextWidget(
                 text: 'Task Report',
-                fontsize: 19.sp,
-                fontwight: FontWeight.bold,
+                fontSize: 19.sp,
+                fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
               Stack(
@@ -35,18 +35,26 @@ class Reports extends StatelessWidget {
                       // Pie Chart within AspectRatio for equal width and height
                       BlocBuilder<TaskBloc, TaskState>(
                         builder: (context, state) {
-                          final done = state.taskList
-                              .where((task) => task.isComplete == true);
-                          final undone = state.taskList
-                              .where((task) => task.isComplete == false);
-                          final archive = state.taskList
-                              .where((task) => task.isArchive == true);
-                          final donecal =
-                              (done.length / state.taskList.length) * 100;
-                          final undonecal =
-                              (undone.length / state.taskList.length) * 100;
-                          final archivecal =
-                              (archive.length / state.taskList.length) * 100;
+                          final done, undone, archive;
+                          double? doneCalculation = 0.0,
+                              archiveCalculation = 0.0,
+                              undoneCalculation = 0.0;
+                          if (state.taskList.isNotEmpty) {
+                            done = state.taskList
+                                .where((task) => task.isComplete == true);
+                            undone = state.taskList
+                                .where((task) => task.isComplete == false);
+                            archive = state.taskList
+                                .where((task) => task.isArchive == true);
+                            doneCalculation =
+                                (done.length / state.taskList.length) * 100;
+                            undoneCalculation =
+                                (undone.length / state.taskList.length) * 100;
+                            archiveCalculation = archive.length == 0.0
+                                ? 0
+                                : (archive.length / state.taskList.length) *
+                                    100;
+                          }
 
                           return SizedBox(
                             height: 30.h,
@@ -55,9 +63,9 @@ class Reports extends StatelessWidget {
                               PieChartData(
                                 sections: [
                                   PieChartSectionData(
-                                    value: archivecal,
+                                    value: archiveCalculation,
                                     color: Colors.blue,
-                                    title: '${archivecal.toInt()}%',
+                                    title: '${archiveCalculation?.toInt()??0.0}%',
                                     radius: radius,
                                     titleStyle: TextStyle(
                                       fontSize: 16,
@@ -66,9 +74,9 @@ class Reports extends StatelessWidget {
                                     ),
                                   ),
                                   PieChartSectionData(
-                                    value: undonecal,
+                                    value: undoneCalculation==0?0.1:undoneCalculation,
                                     color: Colors.purple,
-                                    title: "${undonecal.toInt()}%",
+                                    title: "${undoneCalculation?.toInt()??0.0}%",
                                     radius: radius,
                                     titleStyle: TextStyle(
                                       fontSize: 16,
@@ -77,9 +85,9 @@ class Reports extends StatelessWidget {
                                     ),
                                   ),
                                   PieChartSectionData(
-                                    value: donecal,
+                                    value: doneCalculation,
                                     color: Colors.green,
-                                    title:'${donecal.toInt()}%',
+                                    title: '${doneCalculation?.toInt()??0.0}%',
                                     radius: radius,
                                     titleStyle: TextStyle(
                                       fontSize: 16,
@@ -136,6 +144,7 @@ class Indicator extends StatelessWidget {
   final bool isSquare;
 
   const Indicator({
+    super.key,
     required this.color,
     required this.text,
     required this.isSquare,

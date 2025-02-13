@@ -39,9 +39,9 @@ class _MyAppState extends State<MyApp> {
     // _showNotification();
   }
 
-  Future<void> _showNotification() async {
-    await NotificationService.dailySchedulNotification(1);
-  }
+  // Future<void> _showNotification() async {
+  //   await NotificationService.dailySchedulNotification(1);
+  // }
   @override
   Widget build(BuildContext context) {
     return Sizer(

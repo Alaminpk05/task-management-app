@@ -69,7 +69,7 @@ class NotificationService {
   /// Handle notification payload
   static void _handleNotificationPayload(String payload) {
     try {
-      final duaData = jsonDecode(payload);
+     
 
       if (navigatorKey.currentState != null) {
         navigatorKey.currentState?.push(
@@ -82,7 +82,7 @@ class NotificationService {
             payload; // Store payload if navigation stack is not ready
       }
     } catch (e) {
-      print('Error handling notification payload: $e');
+      debugPrint('Error handling notification payload: $e');
       navigatorKey.currentState
           ?.push(MaterialPageRoute(builder: (contex) => BottomNav()));
     }

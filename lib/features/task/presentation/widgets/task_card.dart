@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -35,10 +34,10 @@ Widget buildTaskItem(BuildContext context, TaskModel task, String type) {
             backgroundColor: const Color.fromRGBO(0, 188, 212, 0.7),
             radius: 27.sp,
             child: Center(
-              child: textWidget(
+              child: TextWidget(
                 text: task.time,
-                fontsize: 17.sp,
-                fontwight: FontWeight.w500,
+                fontSize: 17.sp,
+                fontWeight: FontWeight.w500,
                 color: Colors.black,
               ),
             ),
@@ -51,19 +50,19 @@ Widget buildTaskItem(BuildContext context, TaskModel task, String type) {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                textWidget(
+                TextWidget(
                   text: task.text,
-                  fontsize: 16.5.sp,
-                  fontwight: FontWeight.w500,
+                  fontSize: 16.5.sp,
+                  fontWeight: FontWeight.w500,
                   color: Colors.black,
                 ),
                 SizedBox(
                   height: 0.5.h,
                 ),
-                textWidget(
+                TextWidget(
                   text: task.date,
-                  fontsize: 14.sp,
-                  fontwight: FontWeight.w500,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w500,
                   color: Colors.grey,
                 )
               ],
@@ -99,7 +98,9 @@ Widget buildTaskItem(BuildContext context, TaskModel task, String type) {
                           .read<TaskBloc>()
                           .add(DeleteTaskEvent(id: task.id));
                     } else if (value == restore) {
-                      context.read<TaskBloc>().add(ArchiveTaskEvent(id: task.id));
+                      context
+                          .read<TaskBloc>()
+                          .add(ArchiveTaskEvent(id: task.id));
                     }
                   },
                   itemBuilder: (contex) {

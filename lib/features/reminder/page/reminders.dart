@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:task_management_app/features/widgets/text_widget.dart';
-import 'package:task_management_app/utils/widgets/pages_widgets/header.dart';
 
 class Reminders extends StatelessWidget {
-  const Reminders({super.key, });
- 
+  const Reminders({
+    super.key,
+  });
 
   @override
   Widget build(
@@ -19,11 +19,13 @@ class Reminders extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-               textWidget(text:'Reminders',
-                fontsize: 19.sp,
-                fontwight: FontWeight.bold, color: Colors.black,),
+                TextWidget(
+                  text: 'Reminders',
+                  fontSize: 19.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
                 SizedBox(height: 2.5.h),
-                
               ],
             ),
           ),

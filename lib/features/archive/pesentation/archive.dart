@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:task_management_app/features/task/bloc/task_bloc.dart';
 import 'package:task_management_app/features/widgets/text_widget.dart';
 import 'package:task_management_app/utils/constant/text.dart';
-import 'package:task_management_app/utils/widgets/pages_widgets/header.dart';
+
 import 'package:task_management_app/utils/widgets/tasks/buildtasklist.dart';
 
 class ArchivePage extends StatefulWidget {
@@ -46,22 +45,21 @@ class _ARchivePageState extends State<ArchivePage> {
                           },
                           icon: Icon(Icons.arrow_back),
                         ),
-                        textWidget(
+                        TextWidget(
                           text: 'Archive',
-                          fontsize: 19.sp,
-                          fontwight: FontWeight.bold,
+                          fontSize: 19.sp,
+                          fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                         PopupMenuButton(
                             offset: Offset(30, 30),
                             child: Icon(Icons.more_vert),
                             onSelected: (value) {
-                              
-                                context.read<TaskBloc>().add(
-                                    DeleteArchiveAllTask(
-                                        archiveTaskList: archiveTaskList));
-                             
-                              print('Clicked on archive header morevert: ${archiveTaskList.length}');
+                              context.read<TaskBloc>().add(DeleteArchiveAllTask(
+                                  archiveTaskList: archiveTaskList));
+
+                              debugPrint(
+                                  'Clicked on archive header more: ${archiveTaskList.length}');
                             },
                             itemBuilder: (contex) {
                               return [
